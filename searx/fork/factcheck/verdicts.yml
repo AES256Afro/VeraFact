@@ -1,0 +1,204 @@
+# How reviewers' own rating words map onto VeraFact's normalised verdicts.
+#
+# The reviewer's words are always shown; this table only decides the badge
+# colour and the ordering. Matching is case-insensitive on the whole phrase
+# first, then on the longest phrase contained in the rating text, so
+# "Mostly False" wins over "False" and "Not the Whole Story" over "True".
+# A rating that matches nothing stays "unrated" and is shown as the source wrote it.
+
+verdicts:
+  "true":
+    - "true"
+    - "correct"
+    - "accurate"
+    - "legit"
+    - "genuine"
+    - "geppetto checkmark"
+    - "correct attribution"
+    - "verified"
+  mostly-true:
+    - "mostly true"
+    - "mostly correct"
+    - "mostly accurate"
+    - "largely true"
+    - "largely accurate"
+    - "one pinocchio"
+    - "partly true"
+    - "true but"
+    - "needs context"
+    - "not the whole story"
+    - "lacks context"
+  mixed:
+    - "mixed"
+    - "mixture"
+    - "half true"
+    - "half-true"
+    - "partly false"
+    - "partially true"
+    - "partially false"
+    - "partially correct"
+    - "two pinocchios"
+    - "in dispute"
+    - "it's complicated"
+    - "complicated"
+    - "depends"
+  mostly-false:
+    - "mostly false"
+    - "mostly incorrect"
+    - "mostly wrong"
+    - "largely false"
+    - "three pinocchios"
+    - "barely true"
+    - "exaggerated"
+    - "exaggerates"
+    - "overstated"
+    - "cherry-picks"
+    - "cherry picks"
+  "false":
+    - "false"
+    - "pants on fire"
+    - "four pinocchios"
+    - "incorrect"
+    - "wrong"
+    - "fake"
+    - "fabricated"
+    - "fiction"
+    - "hoax"
+    - "scam"
+    - "bogus"
+    - "not true"
+    - "untrue"
+    - "debunked"
+    - "no, "
+    - "inaccurate"
+    - "fabrication"
+    - "altered"
+    - "doctored"
+    - "manipulated"
+    - "faux"
+    - "falso"
+    - "falsch"
+    - "faux : "
+  misleading:
+    - "misleading"
+    - "miscaptioned"
+    - "missing context"
+    - "out of context"
+    - "distorts"
+    - "distorted"
+    - "spins"
+    - "mischaracterizes"
+    - "misrepresents"
+    - "misattributed"
+    - "flip-flop"
+    - "full flop"
+    - "half flip"
+    - "context"
+  unproven:
+    - "unproven"
+    - "unverified"
+    - "unsupported"
+    - "no evidence"
+    - "research in progress"
+    - "undetermined"
+    - "unknown"
+    - "unclear"
+    - "not enough evidence"
+    - "insufficient evidence"
+    - "cannot be verified"
+    - "can't be verified"
+    - "unfounded"
+    - "baseless"
+    - "legend"
+  satire:
+    - "satire"
+    - "labeled satire"
+    - "labelled satire"
+    - "parody"
+    - "originated as satire"
+  outdated:
+    - "outdated"
+    - "old news"
+    - "no longer true"
+    - "was true"
+    - "recalled"
+    - "stale"
+
+# Fact-checking organisations by host, with the name to show. Used by the
+# ranking plugin to keep only fact-checker hosts in fact-check mode, and by the
+# site engines for a consistent reviewer name.
+reviewers:
+  politifact.com: PolitiFact
+  factcheck.org: FactCheck.org
+  snopes.com: Snopes
+  fullfact.org: Full Fact
+  factcheck.afp.com: AFP Fact Check
+  leadstories.com: Lead Stories
+  reuters.com: Reuters Fact Check
+  apnews.com: AP Fact Check
+  washingtonpost.com: The Washington Post Fact Checker
+  checkyourfact.com: Check Your Fact
+  truthorfiction.com: Truth or Fiction
+  healthfeedback.org: Health Feedback
+  sciencefeedback.co: Science Feedback
+  climatefeedback.org: Climate Feedback
+  correctiv.org: CORRECTIV
+  maldita.es: Maldita
+  pagellapolitica.it: Pagella Politica
+  factcheckni.org: FactCheckNI
+  theferret.scot: The Ferret
+  boomlive.in: BOOM
+  altnews.in: Alt News
+  africacheck.org: Africa Check
+  factcheck.kz: Factcheck.kz
+  verificat.cat: Verificat
+  newtral.es: Newtral
+  20minutes.fr: 20 Minutes Fake Off
+  liberation.fr: Libération CheckNews
+  lemonde.fr: Le Monde Les Décodeurs
+  dpa-factchecking.com: dpa Faktencheck
+  mimikama.org: Mimikama
+  factcheck.vlaanderen: Factcheck.Vlaanderen
+  nieuwscheckers.nl: Nieuwscheckers
+  faktisk.no: Faktisk
+  faktabaari.fi: Faktabaari
+  ellinikahoaxes.gr: Ellinika Hoaxes
+  demagog.org.pl: Demagog
+  demagog.cz: Demagog.cz
+  istinomer.rs: Istinomer
+  raskrinkavanje.ba: Raskrinkavanje
+  faktograf.hr: Faktograf
+  teyit.org: Teyit
+  factly.in: Factly
+  vishvasnews.com: Vishvas News
+  thequint.com: The Quint WebQoof
+  aosfatos.org: Aos Fatos
+  lupa.uol.com.br: Lupa
+  chequeado.com: Chequeado
+  colombiacheck.com: ColombiaCheck
+  animalpolitico.com: El Sabueso
+  verificado.com.mx: Verificado
+  rappler.com: Rappler
+  vera.com.gt: Vera Files
+  taiwanfactcheck.com: Taiwan FactCheck Center
+  factcheck.lab.hkbu.edu.hk: HKBU Fact Check
+  factcheckkorea.org: SNU FactCheck
+  factcheck.ge: FactCheck Georgia
+  stopfake.org: StopFake
+  voxukraine.org: VoxCheck
+  mythdetector.ge: Myth Detector
+  logically.ai: Logically Facts
+  logicallyfacts.com: Logically Facts
+  usatoday.com: USA TODAY Fact Check
+  bbc.com: BBC Verify
+  bbc.co.uk: BBC Verify
+  channel4.com: Channel 4 FactCheck
+  abc.net.au: ABC Fact Check
+  aap.com.au: AAP FactCheck
+  rmit.edu.au: RMIT FactLab
+  poynter.org: Poynter
+  factchequeado.com: Factchequeado
+  observador.pt: Observador Fact Check
+  poligrafo.sapo.pt: Polígrafo
+  publico.pt: Público
+  ellinika-hoaxes.gr: Ellinika Hoaxes

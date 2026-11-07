@@ -1,0 +1,27 @@
+# VeraFact fact-check mode tests: only the tier 1 engine, with a dummy key.
+
+use_default_settings:
+
+  engines:
+    # remove all engines
+    keep_only: []
+
+search:
+
+  formats: [html, json]
+
+server:
+
+  secret_key: "user_secret_key"
+
+fork:
+  factcheck:
+    google_api_key: "test-key"
+
+engines:
+
+  - name: google fact check
+    engine: google_factcheck
+    shortcut: gfc
+    categories: ["fact check"]
+    timeout: 3

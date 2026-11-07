@@ -3,6 +3,18 @@
 
 use_default_settings: true
 
+general:
+  instance_name: "VeraFact"
+
 server:
   secret_key: "ultrasecretkey"
   image_proxy: true
+
+# VeraFact options; the full list with defaults is in searx/settings.yml.
+fork:
+  llm:
+    backend: disabled   # disabled | openai_compat | anthropic | openai; or ${FORK_LLM_BACKEND}
+  appearance:
+    look: default
+    mark: grid-check
+    wordmark: two-tone

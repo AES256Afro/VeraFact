@@ -15,6 +15,7 @@ import msgspec
 
 from typing_extensions import override
 from .brand import SettingsBrand
+from .fork.settings import SettingsFork
 from .sxng_locales import sxng_locales
 from ._settings import SettingsPref
 
@@ -26,6 +27,7 @@ SXNG_LOCALE_TAGS = ['all', 'auto'] + list(l[0] for l in sxng_locales)
 SIMPLE_STYLE = ('auto', 'light', 'dark', 'black')
 CATEGORIES_AS_TABS: dict[str, dict[str, t.Any]] = {
     'general': {},
+    'fact check': {},
     'images': {},
     'videos': {},
     'news': {},
@@ -183,7 +185,7 @@ def apply_schema(settings: dict[str, t.Any], schema: dict[str, t.Any], path_list
 SCHEMA: dict[str, t.Any] = {
     'general': {
         'debug': SettingsValue(bool, False, 'SEARXNG_DEBUG'),
-        'instance_name': SettingsValue(str, 'SearXNG'),
+        'instance_name': SettingsValue(str, 'VeraFact'),
         'privacypolicy_url': SettingsValue((None, False, str), None),
         'contact_url': SettingsValue((None, False, str), None),
         'donation_url': SettingsValue((bool, str), "https://docs.searxng.org/donate.html"),
@@ -191,6 +193,7 @@ SCHEMA: dict[str, t.Any] = {
         'open_metrics': SettingsValue(str, ''),
     },
     'brand': SettingsBrand,
+    'fork': SettingsFork,
     'search': {
         'safe_search': SettingsValue((0, 1, 2), 0),
         'autocomplete': SettingsValue(str, 'duckduckgo'),

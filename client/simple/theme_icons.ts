@@ -40,6 +40,7 @@ const simple_icons: IconSet[] = [
       appstore: "apps-outline.svg",
       book: "book-outline.svg",
       camera: "camera-outline.svg",
+      "checkmark-circle": "checkmark-circle-outline.svg",
       close: "close-outline.svg",
       download: "download-outline.svg",
       "ellipsis-vertical": "ellipsis-vertical-outline.svg",

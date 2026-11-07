@@ -2,7 +2,7 @@ general:
   # Debug mode, only for development. Is overwritten by ${SEARXNG_DEBUG}
   debug: false
   # displayed name
-  instance_name: "SearXNG"
+  instance_name: "VeraFact"
   # For example: https://example.com/privacy
   privacypolicy_url: false
   # use true to use your own donation page written in searx/info/en/donate.md
@@ -18,10 +18,11 @@ general:
   open_metrics: ''
 
 brand:
-  docs_url: https://docs.searxng.org/
-  public_instances: https://searx.space
-  wiki_url: https://github.com/searxng/searxng/wiki
-  issue_url: https://github.com/searxng/searxng/issues
+  docs_url: https://github.com/AES256Afro/VeraFact/tree/main/docs/fork
+  public_instances: ""
+  wiki_url: https://github.com/AES256Afro/VeraFact/tree/main/docs/fork
+  issue_url: https://github.com/AES256Afro/VeraFact/issues
+  new_issue_url: https://github.com/AES256Afro/VeraFact/issues/new
   # custom:
   #   # Custom entries in the footer: [title]: [link]
   #   links:
@@ -36,6 +37,42 @@ brand:
   #    background_color_dark: "#222428"
   #    theme_color_black: "#3050ff"
   #    background_color_black: "#000"
+
+# VeraFact. Every option the fork adds lives here, validated by
+# searx/fork/settings.py. The values below are the defaults; the ones marked
+# with an environment variable can be set from the environment instead.
+fork:
+  factcheck:
+    enabled: true
+    offer_on_heuristic: true        # show the "check this as a claim?" banner
+    google_api_key: ""              # ${FORK_FACTCHECK_GOOGLE_API_KEY}
+    enrich_top: 5                   # fetch ClaimReview JSON-LD for the top N results without a verdict
+  ocr:
+    enabled: false
+    backend: tesseract_http         # tesseract_http | vision_llm
+    url: http://ocr:8884            # ${FORK_OCR_URL}
+    max_upload_mb: 8
+    languages: [eng]
+  llm:
+    backend: disabled               # disabled | openai_compat | anthropic | openai; ${FORK_LLM_BACKEND}
+    base_url: ""                    # ${FORK_LLM_BASE_URL}; openai_compat only
+    model: ""                       # ${FORK_LLM_MODEL}
+    api_key: ""                     # ${FORK_LLM_API_KEY}; prefer the environment over this file
+    timeout: 20
+    max_tokens: 400
+    allow_images: false             # let the OCR backend send screenshots to this model
+    summarise_factchecks: true
+    extract_claims: true
+    search_assist: false            # frontier backends only: the model searches the web and answers above results
+    search_assist_default: false    # even when on, the user enables it per search
+    search_assist_max_fetches: 6
+    search_assist_timeout: 8
+  modelfit:
+    enabled: true
+  appearance:
+    look: default                   # default | classic | modern | engineering | familiar | cyberpunk
+    mark: grid-check                # grid-check | lens | funnel
+    wordmark: two-tone              # two-tone | mono | mark-only
 
 search:
   # Filter results. 0: None, 1: Moderate, 2: Strict
@@ -279,6 +316,7 @@ plugins:
 
 categories_as_tabs:
   general:
+  fact check:
   images:
   # stock images:
   videos:

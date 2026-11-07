@@ -81,10 +81,12 @@ template renders. Hooks, in request order:
    ("is it true that…", "did X really…", "fact check:", a pasted sentence
    over ~12 words ending in a period). The heuristic only *offers* the mode
    on the results page (a banner with one click), it never silently switches.
-2. **Engines** (`searx/fork/factcheck/engines/*.py` + entries in
-   `searx/fork/settings-fork.yml`, merged into `settings.yml` by the build):
-   one engine per fact-check source, all in category `fact check`, all
-   returning a new result type.
+2. **Engines** (`searx/engines/google_factcheck.py` and friends, with their
+   entries in `searx/settings.yml`): one engine per fact-check source, all
+   in category `fact check`, all returning a new result type. The engine
+   modules sit in `searx/engines/` because upstream's loader only looks
+   there; they are thin, and the shared logic (verdict normalisation, the
+   reviewer list, ClaimReview parsing) lives in `searx/fork/factcheck/`.
 3. **Result type** (`searx/fork/result_types/claim_review.py`):
    `ClaimReview(MainResult)` with `claim`, `claimant`, `claim_date`,
    `verdict_raw` (what the source said), `verdict` (normalised:

@@ -37,13 +37,13 @@ ARG VCS_URL="unknown"
 ARG VCS_REVISION="unknown"
 
 LABEL org.opencontainers.image.created="$CREATED" \
-    org.opencontainers.image.description="SearXNG is a metasearch engine. Users are neither tracked nor profiled." \
-    org.opencontainers.image.documentation="https://docs.searxng.org/admin/installation-docker" \
+    org.opencontainers.image.description="VeraFact is a metasearch engine with a fact-check mode, built on SearXNG. Users are neither tracked nor profiled." \
+    org.opencontainers.image.documentation="https://github.com/AES256Afro/VeraFact/tree/main/docs/fork" \
     org.opencontainers.image.licenses="AGPL-3.0-or-later" \
     org.opencontainers.image.revision="$VCS_REVISION" \
     org.opencontainers.image.source="$VCS_URL" \
-    org.opencontainers.image.title="SearXNG" \
-    org.opencontainers.image.url="https://searxng.org" \
+    org.opencontainers.image.title="VeraFact" \
+    org.opencontainers.image.url="https://github.com/AES256Afro/VeraFact" \
     org.opencontainers.image.version="$VERSION"
 
 # Extended from:

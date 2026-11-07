@@ -523,6 +523,42 @@ package starts private; BoxPilot's `catalog-check-images` reports the
 
 ---
 
+## 5b. Appearance
+
+Upstream already has a `theme` preference (one template set, `simple`)
+and a `simple_style` preference (`auto | light | dark`). The fork keeps
+both and adds three choices, all saved in the preferences cookie with
+owner defaults in `settings.yml`:
+
+```yaml
+fork:
+  appearance:
+    look: default        # default | classic | modern | engineering | familiar | cyberpunk
+    mark: grid-check     # grid-check | lens | funnel
+    wordmark: two-tone   # two-tone | mono | mark-only
+```
+
+- **Look** is a CSS token set over the one `simple` template for
+  `default`, `classic`, `modern` and `familiar` (spacing, type, radius,
+  the overview card's shape). `engineering` and `cyberpunk` need
+  template differences (numbered rows, status bar, HUD frames), so they
+  are a second template set, `searx/templates/hud/`, that extends
+  `simple` and overrides a handful of blocks. Ship `default` and
+  `classic` first; the rest follow once the token set is stable.
+- **Mark** picks which of the three brand marks is drawn in the header,
+  the home page and the favicon (`/favicon.ico` is served per mark). The
+  default is `grid-check`: it still reads at 16 px and says the product's
+  idea.
+- **Wordmark** is two-tone (*Vera* teal, *Fact* ink) by default; one
+  colour for busy contexts; mark only for narrow headers.
+- Verdict colours are **not** a setting. Red always means a reviewer
+  rated the claim false, and no theme may reuse those three colours for
+  anything else.
+
+The settings live in Preferences under an **Appearance** tab, next to
+upstream's existing theme and style choices; the Default preferences
+mockup shows the section.
+
 ## 6. Recommended order of implementation
 
 1. **Rename and scaffold** (half a day): choose the name, do the brand

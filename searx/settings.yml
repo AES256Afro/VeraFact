@@ -1262,28 +1262,34 @@ engines:
     timeout: 6.0
 
   # Sites whose own search is client-rendered or walled: a site-scoped query
-  # through a general engine, enriched from each article's ClaimReview markup.
+  # through a general engine (base_engine), enriched from each article's
+  # ClaimReview markup. Yahoo answers site: queries from a home connection;
+  # DuckDuckGo, Google and Qwant challenge them, Brave rate-limits quickly.
   - name: snopes
     engine: factcheck_site
     site: snopes.com
+    base_engine: yahoo
     shortcut: snp
     timeout: 6.0
 
   - name: full fact
     engine: factcheck_site
     site: fullfact.org
+    base_engine: yahoo
     shortcut: ff
     timeout: 6.0
 
   - name: afp fact check
     engine: factcheck_site
     site: factcheck.afp.com
+    base_engine: brave
     shortcut: afp
     timeout: 6.0
 
   - name: lead stories
     engine: factcheck_site
     site: leadstories.com
+    base_engine: yahoo
     shortcut: ls
     timeout: 6.0
 

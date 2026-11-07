@@ -17,22 +17,20 @@ Configuration
    - name: snopes
      engine: factcheck_site
      site: snopes.com
-     base_engine: duckduckgo     # any enabled general engine with request()/response()
+     base_engine: yahoo          # any general engine with request()/response()
      shortcut: snp
 """
 
 from __future__ import annotations
 
-import logging
 import typing as t
 
 import searx.engines
-from searx.engines import ENGINE_DIR
+from searx import get_setting
 from searx.fork.factcheck.verdicts import reviewer_name
 from searx.fork.result_types import ClaimReview
 from searx.result_types import EngineResults
 from searx.result_types._base import MainResult
-from searx.utils import load_module
 
 if t.TYPE_CHECKING:
     from searx.extended_types import SXNG_Response
@@ -55,8 +53,11 @@ safesearch = False
 
 site = ""
 """Host to scope the search to, for example ``snopes.com``.  Required."""
-base_engine = "duckduckgo"
-"""Name of the general engine that runs the query."""
+base_engine = "yahoo"
+"""Name of the general engine that runs the ``site:`` query.  Yahoo answers
+site-scoped queries from a home connection without a challenge; DuckDuckGo,
+Google and Qwant did not when this was written, and Brave rate-limits after a
+few requests.  Set it per engine in ``settings.yml``."""
 reviewer = ""
 """Display name; defaults to the known-reviewer list by host."""
 
@@ -71,7 +72,8 @@ def setup(engine_settings: dict[str, t.Any]) -> bool:
 
 def _resolve_base() -> t.Any:
     """The base engine: the registered one when it is enabled (it then has its
-    traits and cache), else a private copy loaded from its module."""
+    traits, cache and settings), else a private copy built the way the engine
+    loader builds every engine (defaults, traits, setup), without registering it."""
     global _base  # pylint: disable=global-statement
     if _base is not None:
         return _base
@@ -79,14 +81,21 @@ def _resolve_base() -> t.Any:
     if registered is not None:
         _base = registered
         return _base
-    module: t.Any = load_module(base_engine + ".py", ENGINE_DIR)
-    module.name = base_engine
-    module.logger = logging.getLogger("searx.engines." + base_engine)
-    from searx.enginelib.traits import EngineTraitsMap  # pylint: disable=import-outside-toplevel
-
-    EngineTraitsMap.from_data().set_traits(module)
-    if hasattr(module, "setup"):
-        module.setup({"name": base_engine})
+    # Not registered (disabled with `inactive`, or failed its own setup). Build a
+    # private copy from its settings.yml entry when there is one (that also
+    # covers engines defined on top of the xpath / json engines), else from the
+    # module of the same name. Engine names may not contain underscores, and
+    # this name is never registered.
+    private_name = "vf " + base_engine.replace("_", " ")
+    entry: dict[str, t.Any] | None = next(
+        (dict(e) for e in get_setting("engines", []) if e.get("name") == base_engine), None
+    )
+    if entry is None:
+        entry = {"engine": base_engine, "shortcut": f"vf-{base_engine}", "categories": ["general"]}
+    entry.update({"name": private_name, "inactive": False, "disabled": False})
+    module = searx.engines.load_engine(entry)
+    if module is None:
+        raise ValueError(f"factcheck_site: base engine {base_engine!r} could not be loaded")
     _base = module
     return _base
 

@@ -76,8 +76,7 @@ class PluginTest(SearxTestCase):
             self.assertEqual(len(results), 1)
             offer = results[0]
             self.assertIsInstance(offer, FactCheckOffer)
-            self.assertIn("mode=factcheck", offer.url)
-            self.assertIn("q=is+it+true", offer.url)
+            self.assertEqual(offer.link, "/search?q=is+it+true+that+the+moon+is+cheese&mode=factcheck")
 
     def test_no_offer_on_plain_search(self):
         with self.app.test_request_context("/search"):
@@ -109,7 +108,7 @@ class PluginTest(SearxTestCase):
             self.assertEqual(summary.reviewers, 4)
             self.assertEqual(summary.claims, 2)
             self.assertEqual(summary.counts, [("false", 2), ("mostly-false", 1), ("satire", 1)])
-            self.assertIn("mode=search", summary.url)
+            self.assertEqual(summary.link, "/search?q=moon+cheese&mode=search")
             priorities = {r.reviewer: r.priority for r in rc.main_results_map.values()}
             self.assertEqual(priorities["Snopes"], "high")
             self.assertEqual(priorities["Lead Stories"], "")

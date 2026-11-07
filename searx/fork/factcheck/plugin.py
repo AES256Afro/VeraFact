@@ -12,8 +12,8 @@ __all__ = ["SXNGPlugin", "cluster_claims", "normalise_claim"]
 import re
 import typing as t
 from collections import Counter
+from urllib.parse import urlencode
 
-from flask import url_for
 from flask_babel import gettext
 
 from searx import get_setting
@@ -99,7 +99,7 @@ class SXNGPlugin(Plugin):
 
         if not trigger.is_factcheck_mode(search.search_query.categories):
             if get_setting("fork.factcheck.offer_on_heuristic", True) and trigger.looks_like_claim(query):
-                results.add(FactCheckOffer(query=query, url=trigger.factcheck_url(url_for, query)))
+                results.add(FactCheckOffer(query=query, link=_search_url(request, query, trigger.MODE_FACTCHECK)))
             return results
 
         reviews = [r for r in search.result_container.main_results_map.values() if isinstance(r, ClaimReview)]
@@ -113,7 +113,7 @@ class SXNGPlugin(Plugin):
         results.add(
             FactCheckSummary(
                 query=query,
-                url=url_for("search") + "?" + _urlencode({"q": query, trigger.MODE_FIELD: trigger.MODE_SEARCH}),
+                link=_search_url(request, query, trigger.MODE_SEARCH),
                 reviews=len(reviews),
                 reviewers=len({r.reviewer for r in reviews if r.reviewer}),
                 claims=len(clusters),
@@ -123,7 +123,9 @@ class SXNGPlugin(Plugin):
         return results
 
 
-def _urlencode(args: dict[str, str]) -> str:
-    from urllib.parse import urlencode  # pylint: disable=import-outside-toplevel
-
-    return urlencode(args)
+def _search_url(request: "SXNG_Request", query: str, mode: str) -> str:
+    """``/search?q=…&mode=…`` relative to where the app is mounted.  Built by
+    hand because Flask's ``url_for`` is not reliable from inside a plugin
+    (it produced ``http:///search`` behind the container's proxy)."""
+    root = (getattr(request, "script_root", "") or "").rstrip("/")
+    return f"{root}/search?{urlencode({'q': query, trigger.MODE_FIELD: mode})}"

@@ -125,10 +125,3 @@ def looks_like_claim(query: str) -> bool:
     if len(words) >= 12 and q.endswith(".") and _VERBISH.search(q):
         return True
     return False
-
-
-def factcheck_url(url_for: t.Callable[..., str], query: str) -> str:
-    """The URL that runs ``query`` in fact-check mode (used by templates and answers)."""
-    from urllib.parse import urlencode  # pylint: disable=import-outside-toplevel
-
-    return url_for("search") + "?" + urlencode({"q": query, MODE_FIELD: MODE_FACTCHECK})

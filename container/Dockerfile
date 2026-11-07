@@ -64,4 +64,9 @@ VOLUME $__SEARXNG_DATA_PATH
 
 EXPOSE 8080
 
+# VeraFact: upstream ships no HEALTHCHECK, so an orchestrator could only wait for "running".
+# /healthz is upstream's own liveness route; the interpreter is already in the image.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD ["/usr/local/searxng/.venv/bin/python", "-c", "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=4).status == 200 else 1)"]
+
 ENTRYPOINT ["/usr/local/searxng/entrypoint.sh"]

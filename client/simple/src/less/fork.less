@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// VeraFact additions. Kept in one file so rebases on upstream only touch the
+// import line in style.less.
+
+@vf-teal: #0f6e8c;
+@vf-teal-dark: #5cc3e0;
+
+:root {
+  --vf-teal: @vf-teal;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root.theme-auto {
+    --vf-teal: @vf-teal-dark;
+  }
+}
+
+:root.theme-dark,
+:root.theme-black {
+  --vf-teal: @vf-teal-dark;
+}
+
+// The wordmark: mark + "Vera" in teal + "Fact" in the page's text colour.
+.vf-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--color-base-font);
+  text-decoration: none;
+
+  svg {
+    width: 1.05em;
+    height: 1.05em;
+    stroke: var(--vf-teal);
+  }
+
+  .vf-vera {
+    color: var(--vf-teal);
+  }
+}
+
+// Home page: upstream paints the logo as a background image behind a hidden
+// <h1>; VeraFact draws the wordmark in the <h1> itself so it follows the theme.
+.index .title {
+  background: none;
+
+  h1 {
+    visibility: visible;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: @tablet) {
+  .index .title h1 {
+    font-size: 2.4em;
+  }
+}
+
+// Pages with a header (about, stats): same wordmark, smaller.
+.page_with_header .vf-wordmark {
+  font-size: 2em;
+}

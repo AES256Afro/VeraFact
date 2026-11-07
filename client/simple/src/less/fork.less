@@ -63,3 +63,112 @@
 .page_with_header .vf-wordmark {
   font-size: 2em;
 }
+
+// Verdict colours. These are reserved: red always means a reviewer rated the
+// claim false, and no theme may reuse them for anything else.
+:root {
+  --vf-true: #15803d;
+  --vf-mostly-true: #3f8f3a;
+  --vf-mixed: #a16207;
+  --vf-mostly-false: #c2410c;
+  --vf-false: #b3261e;
+  --vf-misleading: #a16207;
+  --vf-unproven: #68707e;
+  --vf-satire: #6d4ab8;
+  --vf-outdated: #68707e;
+  --vf-unrated: #68707e;
+  --vf-badge-fg: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root.theme-auto {
+    --vf-true: #2e9e55;
+    --vf-mostly-true: #4fa649;
+    --vf-mixed: #c7901a;
+    --vf-mostly-false: #e0622a;
+    --vf-false: #d9433a;
+    --vf-misleading: #c7901a;
+    --vf-unproven: #8a94a3;
+    --vf-satire: #8f6fd6;
+    --vf-outdated: #8a94a3;
+    --vf-unrated: #8a94a3;
+  }
+}
+
+:root.theme-dark,
+:root.theme-black {
+  --vf-true: #2e9e55;
+  --vf-mostly-true: #4fa649;
+  --vf-mixed: #c7901a;
+  --vf-mostly-false: #e0622a;
+  --vf-false: #d9433a;
+  --vf-misleading: #c7901a;
+  --vf-unproven: #8a94a3;
+  --vf-satire: #8f6fd6;
+  --vf-outdated: #8a94a3;
+  --vf-unrated: #8a94a3;
+}
+
+// The claim review card (result_templates/fork_claim_review.html).
+.result-fork_claim_review {
+  .vf-claim {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0.3em 0 0.4em 0;
+    font-size: 0.9em;
+  }
+
+  .vf-verdict {
+    display: inline-block;
+    padding: 0.15em 0.6em;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--vf-badge-fg);
+    background: var(--vf-unrated);
+    white-space: nowrap;
+  }
+
+  .vf-verdict-true { background: var(--vf-true); }
+  .vf-verdict-mostly-true { background: var(--vf-mostly-true); }
+  .vf-verdict-mixed { background: var(--vf-mixed); }
+  .vf-verdict-mostly-false { background: var(--vf-mostly-false); }
+  .vf-verdict-false { background: var(--vf-false); }
+  .vf-verdict-misleading { background: var(--vf-misleading); }
+  .vf-verdict-unproven { background: var(--vf-unproven); }
+  .vf-verdict-satire { background: var(--vf-satire); }
+  .vf-verdict-outdated { background: var(--vf-outdated); }
+
+  .vf-verdict-unrated {
+    background: transparent;
+    color: var(--vf-unrated);
+    box-shadow: inset 0 0 0 1px var(--vf-unrated);
+  }
+
+  .vf-reviewer {
+    font-weight: 600;
+  }
+
+  .vf-date {
+    color: var(--color-result-publishdate-font);
+  }
+
+  .vf-claim-text {
+    margin: 0.2em 0 0.5em 0;
+    padding: 0.3em 0 0.3em 0.8em;
+    border-left: 3px solid var(--vf-teal);
+    color: var(--color-base-font);
+    font-style: normal;
+  }
+
+  .vf-claim-label {
+    color: var(--vf-teal);
+    font-weight: 600;
+  }
+
+  .vf-claimant {
+    color: var(--color-result-publishdate-font);
+  }
+}

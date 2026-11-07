@@ -22,3 +22,12 @@ ui:
 search:
   autocomplete: "duckduckgo"
   safe_search: 0
+
+# VeraFact options; the full list with defaults is in searx/settings.yml.
+fork:
+  llm:
+    backend: disabled
+  appearance:
+    look: default
+    mark: grid-check
+    wordmark: two-tone

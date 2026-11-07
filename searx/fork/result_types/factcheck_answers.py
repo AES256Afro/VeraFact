@@ -17,6 +17,9 @@ class FactCheckOffer(BaseAnswer, kw_only=True):
 
     template: str = "answer/fork_factcheck_offer.html"
     query: str
+    link: str = ""
+    """Relative URL that runs the query in fact-check mode.  Not the ``url``
+    field: upstream normalises that into an absolute ``http://`` URL."""
 
     def __hash__(self):
         return hash((self.template, self.query))
@@ -24,11 +27,13 @@ class FactCheckOffer(BaseAnswer, kw_only=True):
 
 class FactCheckSummary(BaseAnswer, kw_only=True):
     """What the reviewers found, counted, with no model involved.  This line is
-    the product's verdict when the model layer is off.  :py:attr:`url` runs the
+    the product's verdict when the model layer is off.  :py:attr:`link` runs the
     query as an ordinary web search."""
 
     template: str = "answer/fork_factcheck_summary.html"
     query: str
+    link: str = ""
+    """Relative URL that runs the query as an ordinary web search."""
     reviews: int = 0
     """Number of claim reviews on the page."""
     reviewers: int = 0

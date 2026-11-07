@@ -152,3 +152,21 @@ class SiteScopedTest(SearxTestCase):
     def test_setup_requires_site(self):
         with self.assertRaises(ValueError):
             self.engine.setup({"name": "x"})
+
+    def test_private_copy_of_base(self):
+        # demo_online is a real upstream engine module that is not registered in the test settings
+        self.engine._base = None  # pylint: disable=protected-access
+        with mock.patch.object(self.engine, "base_engine", "demo_online"):
+            base = self.engine._resolve_base()  # pylint: disable=protected-access
+            self.assertEqual(base.name, "vf demo online")
+            self.assertTrue(callable(base.request))
+            self.assertTrue(callable(base.response))
+            self.assertNotIn("demo_online", searx.engines.engines)
+        self.engine._base = None  # pylint: disable=protected-access
+
+    def test_unknown_base_is_an_error(self):
+        self.engine._base = None  # pylint: disable=protected-access
+        with mock.patch.object(self.engine, "base_engine", "no_such_engine_xyz"):
+            with self.assertRaises(ValueError):
+                self.engine._resolve_base()  # pylint: disable=protected-access
+        self.engine._base = None  # pylint: disable=protected-access

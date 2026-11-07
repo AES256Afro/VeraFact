@@ -1249,6 +1249,44 @@ engines:
     timeout: 4.0
     disabled: true
 
+  - name: politifact
+    engine: factcheck_politifact
+    shortcut: pf
+    timeout: 6.0
+
+  - name: factcheck.org
+    engine: factcheck_wordpress
+    base_url: https://www.factcheck.org
+    reviewer: FactCheck.org
+    shortcut: fco
+    timeout: 6.0
+
+  # Sites whose own search is client-rendered or walled: a site-scoped query
+  # through a general engine, enriched from each article's ClaimReview markup.
+  - name: snopes
+    engine: factcheck_site
+    site: snopes.com
+    shortcut: snp
+    timeout: 6.0
+
+  - name: full fact
+    engine: factcheck_site
+    site: fullfact.org
+    shortcut: ff
+    timeout: 6.0
+
+  - name: afp fact check
+    engine: factcheck_site
+    site: factcheck.afp.com
+    shortcut: afp
+    timeout: 6.0
+
+  - name: lead stories
+    engine: factcheck_site
+    site: leadstories.com
+    shortcut: ls
+    timeout: 6.0
+
   - name: google fact check
     engine: google_factcheck
     shortcut: gfc

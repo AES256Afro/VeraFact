@@ -26,12 +26,49 @@ anything.
 | 9 | **Lodestar** | A guiding star; private search that points you somewhere true. | `lodestar-search` free | `lodestar.search` free | Lodestar is an Ethereum client |
 | 10 | **Attest** | To bear witness; "attested" is what a sourced verdict is. | `attest-search` free | `attest.search` free | Attest is a market-research SaaS |
 
+## Second round (2026-11-07, later the same day)
+
+The user preferred the spelling **Verasift** (*vera*, Latin and Italian for
+*true*, also a first name) over Verisift, and asked for more candidates.
+
+| # | Name | Why | GitHub handle | Domains | Conflicts noticed |
+| --- | --- | --- | --- | --- | --- |
+| 11 | **Verasift** | *vera* + *sift*; reads like a person who sifts | `verasift` free | `.app` `.dev` `.io` `.search` free, `.com` taken | none found |
+| 12 | **Sextant** | fix your position from fixed stars; sources as the stars | `sextant-search` free | `sextant.search` free | common product word |
+| 13 | **Loupe** | the jeweller's glass; inspection at close range | `loupe-search` free | `loupe.search` free | a few small software products |
+| 14 | **Nullius** | from *nullius in verba*, take nobody's word for it | `nullius` taken, `nullius-search` free | `nullius.search` free, `.com` `.app` taken | obscure to most people |
+| 15 | **Plumbline** | the builder's test of true vertical | `plumbline` taken | `plumbline.search` free, `.app` taken | — |
+| 16 | **Factum** | Latin "a thing done", root of *fact* | `factum` taken, `factum-search` free | `factum.search` free, `.app` taken | a few legal-tech products |
+| 17 | **Parallax** | the same object from two viewpoints gives its true distance | `parallax-search` free | `parallax.search` free | Parallax Inc. (electronics) |
+| 18 | **Aletheia** | Greek for truth as unconcealment | `aletheia-search` taken | `aletheia.search` free | hard to spell and say |
+| 19 | **Vetter** | one who vets | `vetter` taken | `vetter.search` free | surname, several companies |
+
 ## Recommendation
 
-**Verisift** first: the only candidate with no collision found, a free
-GitHub handle, and free `.app`/`.dev`/`.io`. **Assay** second: shortest,
-`assay.search` is free, and "assay mode" is a good name for the fact-check
-mode even if the product takes another name.
+**Verasift**, as the user prefers. It has the cleanest availability of
+anything checked (GitHub handle plus four domains free, no collision
+found) and it carries a meaning you can explain in one sentence. The
+working identity is on the mockup canvas (row "Brand"): three mark
+options (sieve-check, lens-with-mesh, funnel), a two-tone wordmark in
+Albert Sans with *Vera* in teal, the tagline "Sift the web. Keep what's
+true.", one brand colour and three reserved verdict colours.
+
+Runners-up if Verasift falls at a trademark search: **Sextant** (free
+everywhere checked), **Loupe** (short, says inspection), **Assay** from
+the first round.
+
+## Brand rules (for whichever name wins)
+
+- One brand colour (teal `#0f6e8c`, `#5cc3e0` on dark) for the product's
+  own voice: mark, mode switch, links. The verdict colours (false
+  `#b3261e`, mixed `#a16207`, true `#15803d`) are reserved for
+  fact-checkers' ratings and never appear on a button or in the brand.
+- Model copy always names the model and where it ran ("qwen2.5-3b,
+  local"; "Claude Haiku 5.5, Anthropic API"), never "AI" alone.
+- Every page that sends anything off the box carries one sentence saying
+  what left: "Only the query left this box."
+- The footer credit "based on SearXNG" stays as text; the word never
+  appears in the mark.
 
 Once chosen, the rename sweep is: `general.instance_name`, `brand.*`,
 `client/simple/src/brand/*.svg`, `searx/templates/simple/searxng-wordmark.min.svg`,

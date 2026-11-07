@@ -76,5 +76,7 @@ availability of anything checked), **Sextant**, **Loupe**, **Assay**.
 Once chosen, the rename sweep is: `general.instance_name`, `brand.*`,
 `client/simple/src/brand/*.svg`, `searx/templates/simple/searxng-wordmark.min.svg`,
 `base.html` (`<meta name="description">`, `<title>`, footer), `index.html`
-`<h1>`, `container/Dockerfile` OCI labels, `package.json` name, and the
-GitHub repository name (currently `SearXNG-Fork`, which contains the word).
+`<h1>`, `container/Dockerfile` OCI labels, `package.json` name. The GitHub
+repository is `https://github.com/AES256Afro/VeraFact` (public; created
+2026-11-07, replacing the private `SearXNG-Fork`, which can be deleted
+once this clone has pushed).

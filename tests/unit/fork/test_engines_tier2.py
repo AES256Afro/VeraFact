@@ -29,7 +29,7 @@ class PolitiFactTest(SearxTestCase):
     def test_request(self):
         params = {}
         self.engine.request("moon landing", params)
-        self.assertEqual(params["url"], "https://www.politifact.com/search/?q=moon+landing")
+        self.assertEqual(params["url"], "https://politifact.com/search/?q=moon+landing")
 
     def test_response(self):
         resp = mock.Mock()

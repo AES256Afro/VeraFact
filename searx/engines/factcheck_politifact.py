@@ -39,7 +39,8 @@ about = {
 engine_type = "online"
 categories = ["fact check"]
 paging = False
-search_url = "https://www.politifact.com/search/?{args}"
+# www.politifact.com answers with a 301, which engines do not follow; the bare host serves the page
+search_url = "https://politifact.com/search/?{args}"
 reviewer = "PolitiFact"
 
 results_xpath = (

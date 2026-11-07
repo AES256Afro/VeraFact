@@ -22,6 +22,8 @@ ui:
 search:
   autocomplete: "duckduckgo"
   safe_search: 0
+  # json lets BoxPilot (and a curl) read results and unresponsive engines
+  formats: [html, json, rss]
 
 # VeraFact options; the full list with defaults is in searx/settings.yml.
 fork:

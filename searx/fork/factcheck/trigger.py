@@ -21,7 +21,6 @@ from __future__ import annotations
 __all__ = ["CATEGORY", "adapt_form", "is_factcheck_mode", "is_strict_mode", "looks_like_claim"]
 
 import re
-import typing as t
 from collections.abc import Iterable, Mapping
 
 CATEGORY = "fact check"

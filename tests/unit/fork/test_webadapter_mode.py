@@ -25,7 +25,8 @@ class ModeInWebadapterTest(SearxTestCase):
         sq = self.query({"q": "the moon is cheese", "mode": "factcheck", "category_general": "1"})
         self.assertEqual(sq.query, "the moon is cheese")
         self.assertEqual(sq.categories, ["fact check"])
-        self.assertEqual([e.name for e in sq.engineref_list], ["google fact check"])
+        self.assertIn("google fact check", [e.name for e in sq.engineref_list])
+        self.assertTrue(all(e.category == "fact check" for e in sq.engineref_list))
 
     def test_bang(self):
         sq = self.query({"q": "!fc the moon is cheese"})

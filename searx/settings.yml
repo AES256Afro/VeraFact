@@ -1245,6 +1245,12 @@ engines:
     timeout: 4.0
     disabled: true
 
+  - name: google fact check
+    engine: google_factcheck
+    shortcut: gfc
+    # VeraFact: needs fork.factcheck.google_api_key (or FORK_FACTCHECK_GOOGLE_API_KEY);
+    # the engine is not loaded without it.
+
   - name: google
     engine: google
     shortcut: go

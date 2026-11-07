@@ -1,0 +1,19 @@
+{% from 'simple/macros.html' import result_header, result_sub_footer, result_footer with context %}
+
+{{ result_header(result, favicons, image_proxify) -}}
+<div class="vf-claim">
+  <span class="vf-verdict vf-verdict-{{ result.verdict }}" title="{{ _('Rating as given by the reviewer') }}">{{ result.verdict_raw or _('Unrated') }}</span>
+  {%- if result.reviewer %}<span class="vf-reviewer">{{ result.reviewer }}</span>{% endif -%}
+  {%- if result.review_date %}<time class="vf-date" datetime="{{ result.review_date }}">{{ result.review_date }}</time>{% endif -%}
+</div>
+{%- if result.claim %}
+<blockquote class="vf-claim-text">
+  <span class="vf-claim-label">{{ _('Claim') }}:</span> “{{ result.claim }}”
+  {%- if result.claimant %} <span class="vf-claimant">— {{ result.claimant }}{% if result.claim_date %}, {{ result.claim_date }}{% endif %}</span>{% endif -%}
+</blockquote>
+{%- endif %}
+{%- if result.content %}
+  <p class="content">{{ result.content|safe }}</p>
+{%- endif %}
+{{- result_sub_footer(result) -}}
+{{- result_footer(result) }}

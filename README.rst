@@ -1,62 +1,22 @@
-.. SPDX-License-Identifier: AGPL-3.0-or-later
+VeraFact
+========
 
-.. _metasearch engine: https://en.wikipedia.org/wiki/Metasearch_engine
-.. _Installation guide: https://docs.searxng.org/admin/installation.html
-.. _Configuration guide: https://docs.searxng.org/admin/settings/index.html
-.. _CONTRIBUTING: https://github.com/searxng/searxng/blob/master/CONTRIBUTING.rst
-.. _LICENSE: https://github.com/searxng/searxng/blob/master/LICENSE
+Search the web, keep the facts.
 
-.. figure:: https://raw.githubusercontent.com/searxng/searxng/master/client/simple/src/brand/searxng.svg
-   :target: https://searxng.org
-   :alt: SearXNG
-   :width: 512px
+VeraFact is a privacy-respecting metasearch engine with a fact-check mode:
+a query that is a claim is routed to fact-checking sources and laid out as
+claim → verdict → source.  An optional model layer (local by default, a
+frontier API if you choose) can summarise what the reviewers found, read a
+claim out of a screenshot, or search alongside the engines; it is off until
+the owner turns it on, and never gives a verdict without sources.
 
+It is built on `SearXNG <https://github.com/searxng/searxng>`_ and keeps
+upstream's engines, plugins, settings and theme.  Everything the fork adds
+lives under ``searx/fork/`` and the ``fork:`` section of ``settings.yml``.
 
-SearXNG is a `metasearch engine`_. Users are neither tracked nor profiled.
+- Plan and status: ``docs/fork/`` (``ARCHITECTURE.md``, ``FEATURES.md``,
+  ``NAMING.md``)
+- Run it on a box today: ``deploy/verafact/README.md``
+- Upstream documentation (settings, engines, admin): https://docs.searxng.org
 
-.. image:: https://img.shields.io/badge/organization-3050ff?style=flat-square&logo=searxng&logoColor=fff&cacheSeconds=86400
-   :target: https://github.com/searxng
-   :alt: Organization
-
-.. image:: https://img.shields.io/badge/documentation-3050ff?style=flat-square&logo=readthedocs&logoColor=fff&cacheSeconds=86400
-   :target: https://docs.searxng.org
-   :alt: Documentation
-
-.. image:: https://img.shields.io/github/license/searxng/searxng?style=flat-square&label=license&color=3050ff&cacheSeconds=86400
-   :target: https://github.com/searxng/searxng/blob/master/LICENSE
-   :alt: License
-
-.. image:: https://img.shields.io/github/commit-activity/y/searxng/searxng/master?style=flat-square&label=commits&color=3050ff&cacheSeconds=3600
-   :target: https://github.com/searxng/searxng/commits/master/
-   :alt: Commits
-
-.. image:: https://img.shields.io/weblate/progress/searxng?server=https%3A%2F%2Ftranslate.codeberg.org&style=flat-square&label=translated&color=3050ff&cacheSeconds=86400
-   :target: https://translate.codeberg.org/projects/searxng/
-   :alt: Translated
-
-Setup
-=====
-
-To install SearXNG, see `Installation guide`_.
-
-To fine-tune SearXNG, see `Configuration guide`_.
-
-Further information on *how-to* can be found `here <https://docs.searxng.org/admin/index.html>`_.
-
-Connect
-=======
-
-If you have questions or want to connect with others in the community:
-
-- `#searxng:matrix.org <https://matrix.to/#/#searxng:matrix.org>`_
-
-Contributing
-============
-
-See CONTRIBUTING_ for more details.
-
-License
-=======
-
-This project is licensed under the GNU Affero General Public License (AGPL-3.0).
-See LICENSE_ for more details.
+License: AGPL-3.0-or-later, as upstream.

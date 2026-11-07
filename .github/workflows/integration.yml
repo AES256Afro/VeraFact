@@ -6,9 +6,13 @@ on:
   push:
     branches:
       - master
+      - main
+      - "fork/**"
   pull_request:
     branches:
       - master
+      - main
+      - "fork/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}

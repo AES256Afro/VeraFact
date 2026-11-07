@@ -2,7 +2,7 @@
 
 Companion to `ARCHITECTURE.md` (where things hook in) and `NAMING.md`. Each
 section gives the module, the configuration keys, what the UI shows, and
-what will go wrong. The product name is written as *Verisift* below pending
+what will go wrong. The product name is written as *VeraFact* below pending
 the decision in `NAMING.md`; nothing here depends on it.
 
 All fork settings live under one `fork:` section, validated by a
@@ -310,7 +310,7 @@ in the prompt:
 
 ### Frontier search assist
 
-The one place a model is allowed to go beyond the sources Verisift found:
+The one place a model is allowed to go beyond the sources VeraFact found:
 with a frontier backend (`anthropic` or `openai`) the owner can let the
 model **search the web itself** and write an answer above the ordinary
 results, with citations to the pages it fetched. This is the
@@ -465,7 +465,7 @@ manifests on 2026-11-07):
 ```yaml
 schemaVersion: 2
 id: verisift
-name: Verisift
+name: VeraFact
 category: Search
 risk: low
 image:

@@ -43,19 +43,22 @@ The user preferred the spelling **Verasift** (*vera*, Latin and Italian for
 | 18 | **Aletheia** | Greek for truth as unconcealment | `aletheia-search` taken | `aletheia.search` free | hard to spell and say |
 | 19 | **Vetter** | one who vets | `vetter` taken | `vetter.search` free | surname, several companies |
 
-## Recommendation
+## Decision: VeraFact
 
-**Verasift**, as the user prefers. It has the cleanest availability of
-anything checked (GitHub handle plus four domains free, no collision
-found) and it carries a meaning you can explain in one sentence. The
-working identity is on the mockup canvas (row "Brand"): three mark
-options (sieve-check, lens-with-mesh, funnel), a two-tone wordmark in
-Albert Sans with *Vera* in teal, the tagline "Sift the web. Keep what's
-true.", one brand colour and three reserved verdict colours.
+The user chose **VeraFact** (*Vera*, true, also a first name; *Fact*,
+what she hands you). Checked 2026-11-07: the bare GitHub handle
+`verafact` is taken, `verafact-search` is free; `verafact.com`, `.org`
+and `.net` are taken; `verafact.app`, `.dev`, `.io` and `.search` are
+free. Still no trademark search.
 
-Runners-up if Verasift falls at a trademark search: **Sextant** (free
-everywhere checked), **Loupe** (short, says inspection), **Assay** from
-the first round.
+The working identity is on the mockup canvas (row "Brand"): three mark
+options (A grid-check, B lens-with-mesh, C funnel), a two-tone wordmark
+in Albert Sans with *Vera* in teal and *Fact* in ink, the tagline
+"Search the web. Keep the facts.", one brand colour and three reserved
+verdict colours.
+
+Runners-up recorded for the file: **Verasift** (the cleanest
+availability of anything checked), **Sextant**, **Loupe**, **Assay**.
 
 ## Brand rules (for whichever name wins)
 

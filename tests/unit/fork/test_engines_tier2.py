@@ -55,6 +55,18 @@ class PolitiFactTest(SearxTestCase):
         resp.text = "<html><body><p>nothing</p></body></html>"
         self.assertEqual(len(self.engine.response(resp)), 0)
 
+    def test_plain_articles_are_skipped(self):
+        resp = mock.Mock()
+        resp.text = (
+            '<div class="py-4 border-bottom"><h5 class="pf-search-factcheck-title">'
+            '<a href="https://politifact.com/article/2019/jul/18/apollo/">Fifty years after Apollo</a></h5></div>'
+            '<div class="py-4 border-bottom"><h5 class="pf-search-factcheck-title">'
+            '<a href="https://politifact.com/factchecks/2024/x/">A claim</a></h5></div>'
+        )
+        results = self.engine.response(resp)
+        self.assertEqual([r.url for r in results], ["https://politifact.com/factchecks/2024/x/"])
+        self.assertEqual(results[0].verdict, "unrated")
+
 
 class WordPressTest(SearxTestCase):
 

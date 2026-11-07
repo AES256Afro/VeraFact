@@ -1264,7 +1264,7 @@ engines:
   # Sites whose own search is client-rendered or walled: a site-scoped query
   # through a general engine (base_engine), enriched from each article's
   # ClaimReview markup. Yahoo answers site: queries from a home connection;
-  # DuckDuckGo, Google and Qwant challenge them, Brave rate-limits quickly.
+  # DuckDuckGo, Google and Qwant challenge them, Brave rate-limits after a few.
   - name: snopes
     engine: factcheck_site
     site: snopes.com
@@ -1282,7 +1282,7 @@ engines:
   - name: afp fact check
     engine: factcheck_site
     site: factcheck.afp.com
-    base_engine: brave
+    base_engine: yahoo
     shortcut: afp
     timeout: 6.0
 

@@ -83,6 +83,10 @@ def response(resp: "SXNG_Response") -> EngineResults:
         url = eval_xpath_getindex(item, url_xpath, 0, default="")
         if not url:
             continue
+        verdict_raw = html_to_text(str(eval_xpath_getindex(item, verdict_xpath, 0, default="")))
+        if not verdict_raw and "/factchecks/" not in str(url):
+            # a plain article in the listing, not a review of a claim
+            continue
         claim = _text(eval_xpath_list(item, title_xpath))
         claimant = _text(eval_xpath_list(item, claimant_xpath))
         stated = _text(eval_xpath_list(item, stated_xpath))
@@ -92,7 +96,6 @@ def response(resp: "SXNG_Response") -> EngineResults:
         if m:
             claim_date = _iso(m.group("date"))
             where = (m.group("where") or "").strip()
-        verdict_raw = html_to_text(str(eval_xpath_getindex(item, verdict_xpath, 0, default="")))
         review_date = _iso(_text(eval_xpath_list(item, review_date_xpath)))
 
         content = ""

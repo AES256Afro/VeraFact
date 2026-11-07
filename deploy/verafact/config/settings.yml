@@ -1,0 +1,24 @@
+# VeraFact instance settings. Everything not set here comes from searx/settings.yml.
+# https://docs.searxng.org/admin/settings/
+
+use_default_settings: true
+
+general:
+  instance_name: "VeraFact"
+  enable_metrics: false
+
+server:
+  # Both are overwritten by the environment: SEARXNG_SECRET and SEARXNG_BASE_URL.
+  secret_key: "ultrasecretkey"
+  base_url: false
+  image_proxy: true
+  limiter: false
+
+ui:
+  default_theme: simple
+  theme_args:
+    simple_style: auto
+
+search:
+  autocomplete: "duckduckgo"
+  safe_search: 0

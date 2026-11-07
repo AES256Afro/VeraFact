@@ -7,6 +7,7 @@
         <button id="send_search" type="submit" aria-label="{{ _('search') }}"><span class="hide_if_nojs">{{ icon_big('search') }}</span><span class="show_if_nojs">{{ _('search') }}</span></button>
         <div class="autocomplete hide_if_nojs"><ul></ul></div>
       </div>
+      {% include 'simple/fork/mode_switch.html' %}
     </div>
   </div>
   {% for category in selected_categories %}

@@ -1,0 +1,14 @@
+{#- The Search / Check a claim switch. With a query (results page) the two
+    states are links that re-run it; on the home page they are radios that
+    travel with the form. Both resolve to the "fact check" category in
+    searx/fork/factcheck/trigger.py. -#}
+{%- set factcheck_on = 'fact check' in (selected_categories or []) -%}
+<div class="vf-mode" role="group" aria-label="{{ _('Mode') }}">
+  {%- if q -%}
+    <a class="vf-mode-item{% if not factcheck_on %} selected{% endif %}" href="{{ url_for('search') }}?q={{ q|urlencode }}&amp;mode=search">{{ _('Search') }}</a>
+    <a class="vf-mode-item{% if factcheck_on %} selected{% endif %}" href="{{ url_for('search') }}?q={{ q|urlencode }}&amp;mode=factcheck">{{ _('Check a claim') }}</a>
+  {%- else -%}
+    <input type="radio" id="vf-mode-search" name="mode" value="search"{% if not factcheck_on %} checked{% endif %}><label class="vf-mode-item" for="vf-mode-search">{{ _('Search') }}</label>
+    <input type="radio" id="vf-mode-factcheck" name="mode" value="factcheck"{% if factcheck_on %} checked{% endif %}><label class="vf-mode-item" for="vf-mode-factcheck">{{ _('Check a claim') }}</label>
+  {%- endif -%}
+</div>

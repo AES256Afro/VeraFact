@@ -256,6 +256,10 @@ plugins:
   searx.plugins.calculator.SXNGPlugin:
     active: true
 
+  # VeraFact: fact-check mode (ranking, summary, the offer banner)
+  searx.fork.factcheck.plugin.SXNGPlugin:
+    active: true
+
   searx.plugins.infinite_scroll.SXNGPlugin:
     active: false
 

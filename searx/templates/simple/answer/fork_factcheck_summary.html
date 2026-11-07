@@ -1,0 +1,26 @@
+{%- set verdict_names = {
+  "true": _("true"), "mostly-true": _("mostly true"), "mixed": _("mixed"),
+  "mostly-false": _("mostly false"), "false": _("false"), "misleading": _("misleading"),
+  "unproven": _("unproven"), "satire": _("satire"), "outdated": _("outdated"), "unrated": _("unrated")
+} -%}
+<div class="vf-summary">
+  {%- if answer.reviews == 0 -%}
+    <span class="vf-summary-line">{{ _('No fact-check found for this claim yet.') }}</span>
+    <span class="vf-summary-note">{{ _('That is not a verdict: nobody has reviewed it, or the wording differs from the reviewed claim.') }}</span>
+  {%- else -%}
+    <span class="vf-summary-line">
+      {%- if answer.reviewers == 1 -%}
+        {{ _('One fact-checker reviewed this claim') }}
+      {%- else -%}
+        {{ _('%(n)s fact-checkers reviewed this claim', n=answer.reviewers) }}
+      {%- endif -%}
+      {%- if answer.claims > 1 %} ({{ _('%(n)s distinct claims', n=answer.claims) }}){% endif -%}:
+    </span>
+    <span class="vf-summary-counts">
+      {%- for verdict, count in answer.counts -%}
+        <span class="vf-verdict vf-verdict-{{ verdict }}">{{ count }} {{ verdict_names[verdict] }}</span>
+      {%- endfor -%}
+    </span>
+  {%- endif -%}
+  <a class="vf-summary-switch" href="{{ answer.link }}">{{ _('Search the web instead') }}</a>
+</div>

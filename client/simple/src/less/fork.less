@@ -172,3 +172,99 @@
     color: var(--color-result-publishdate-font);
   }
 }
+
+// The Search / Check a claim switch (templates/simple/fork/mode_switch.html).
+.vf-mode {
+  display: inline-flex;
+  margin: 0.6rem 0 0 0;
+  border: 1px solid var(--color-search-border);
+  border-radius: 999px;
+  overflow: hidden;
+  font-size: 0.85em;
+
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .vf-mode-item {
+    padding: 0.25em 0.9em;
+    color: var(--color-base-font);
+    text-decoration: none;
+    cursor: pointer;
+    .disable-user-select;
+  }
+
+  .vf-mode-item.selected,
+  input[type="radio"]:checked + .vf-mode-item {
+    background: var(--vf-teal);
+    color: #fff;
+  }
+
+  input[type="radio"]:focus-visible + .vf-mode-item {
+    outline: 2px solid var(--vf-teal);
+    outline-offset: -2px;
+  }
+}
+
+.index .vf-mode {
+  margin-top: 1rem;
+}
+
+// Answers the fact-check plugin adds (answer/fork_factcheck_*.html).
+.vf-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6em;
+
+  .vf-offer-button {
+    padding: 0.2em 0.8em;
+    border-radius: 999px;
+    background: var(--vf-teal);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.vf-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+
+  .vf-summary-counts {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+  }
+
+  .vf-verdict {
+    display: inline-block;
+    padding: 0.1em 0.6em;
+    border-radius: 999px;
+    font-weight: 700;
+    color: var(--vf-badge-fg);
+    background: var(--vf-unrated);
+  }
+
+  .vf-verdict-true { background: var(--vf-true); }
+  .vf-verdict-mostly-true { background: var(--vf-mostly-true); }
+  .vf-verdict-mixed { background: var(--vf-mixed); }
+  .vf-verdict-mostly-false { background: var(--vf-mostly-false); }
+  .vf-verdict-false { background: var(--vf-false); }
+  .vf-verdict-misleading { background: var(--vf-misleading); }
+  .vf-verdict-unproven { background: var(--vf-unproven); }
+  .vf-verdict-satire { background: var(--vf-satire); }
+  .vf-verdict-outdated { background: var(--vf-outdated); }
+
+  .vf-summary-note {
+    color: var(--color-result-publishdate-font);
+  }
+
+  .vf-summary-switch {
+    margin-left: auto;
+  }
+}

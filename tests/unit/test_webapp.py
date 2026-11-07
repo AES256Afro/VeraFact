@@ -229,7 +229,8 @@ class ViewsTestCase(SearxTestCase):  # pylint: disable=too-many-public-methods
         result = self.client.get('/opensearch.xml')
         self.assertEqual(result.status_code, 200)
         self.assertIn(
-            b'<Description>VeraFact is a metasearch engine with a fact-check mode that respects your privacy.</Description>',
+            b'<Description>VeraFact is a metasearch engine with a fact-check mode '
+            b'that respects your privacy.</Description>',
             result.data,
         )
 

@@ -1,0 +1,41 @@
+# VeraFact, standalone. Build the image first with ./build.sh, then:
+#   cp .env.example .env   # and edit it
+#   docker compose up -d
+# The app binds to loopback only; publish it over Tailscale Serve (see README.md).
+
+name: verafact
+
+services:
+  core:
+    container_name: verafact-core
+    image: ${VERAFACT_IMAGE:-verafact:dev}
+    restart: unless-stopped
+    ports:
+      - "${VERAFACT_HOST:-127.0.0.1}:${VERAFACT_PORT:-8899}:8080"
+    env_file: ./.env
+    environment:
+      SEARXNG_VALKEY_URL: valkey://valkey:6379/0
+    volumes:
+      - ./config/:/etc/searxng/
+      - core-data:/var/cache/searxng/
+    depends_on:
+      - valkey
+    healthcheck:
+      test: ["CMD", "/usr/local/searxng/.venv/bin/python", "-c",
+             "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=5).status == 200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+
+  valkey:
+    container_name: verafact-valkey
+    image: docker.io/valkey/valkey:9-alpine
+    command: valkey-server --save 300 1 --save 60 1000 --loglevel warning
+    restart: unless-stopped
+    volumes:
+      - valkey-data:/data/
+
+volumes:
+  core-data:
+  valkey-data:

@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Tuple
 from searx.exceptions import SearxParameterException
 from searx.webutils import VALID_LANGUAGE_CODE
 from searx.query import RawTextQuery
+from searx.fork.factcheck.trigger import adapt_form
 from searx.engines import categories, engines
 from searx.search.models import SearchQuery, EngineRef
 from searx.preferences import Preferences
@@ -242,6 +243,8 @@ def get_search_query_from_webapp(
     # no text for the query ?
     if not form.get('q'):
         raise SearxParameterException('q', '')
+
+    form = adapt_form(form)  # VeraFact: mode / bang -> "fact check" category
 
     # set blocked engines
     disabled_engines = preferences.engines.get_disabled()

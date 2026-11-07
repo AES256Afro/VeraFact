@@ -34,6 +34,10 @@ fork:
     allow_images: false           # let the OCR backend send screenshots to this model
     summarise_factchecks: true
     extract_claims: true
+    search_assist: false          # frontier backends only: the model searches the web and answers above results
+    search_assist_default: false  # even when on, the user enables it per search
+    search_assist_max_fetches: 6
+    search_assist_timeout: 8
   modelfit:
     enabled: true
 ```
@@ -304,6 +308,39 @@ in the prompt:
    qwen2.5-3b-instruct, local") so nobody mistakes it for a human
    fact-checker's words.
 
+### Frontier search assist
+
+The one place a model is allowed to go beyond the sources Verisift found:
+with a frontier backend (`anthropic` or `openai`) the owner can let the
+model **search the web itself** and write an answer above the ordinary
+results, with citations to the pages it fetched. This is the
+"Overview" in the Familiar mockups and the "Answer" panel in the others.
+It exists because that is what people now expect from a search page; it
+is not the product's point, so:
+
+- `fork.llm.search_assist: false` by default. Turning it on puts a
+  three-way **Model assist** switch on every page: *Off*, *Local*,
+  *Frontier*. *Local* means the small model summarises fact-check
+  sources and extracts claims, nothing more (a 3B model is not asked to
+  search). *Frontier* adds the search answer.
+- `fork.llm.search_assist_default: false`: even when enabled, results
+  load without the answer and the user turns it on per search. The
+  per-search choice is remembered in the preferences cookie.
+- The answer is produced with the provider's server-side web-search tool
+  (Anthropic's `web_search`, or the OpenAI equivalent), capped at
+  `search_assist_max_fetches: 6` pages and `search_assist_timeout: 8`
+  seconds, and rendered only after the engine results so it never delays
+  them. The panel names the model and provider, lists the domains it
+  fetched, and says that the query and those pages went to the provider.
+- Output must be `AssistAnswer` (`text`, `citations: list[{url, title}]`,
+  `fetched: list[str]`); an answer without at least one citation is
+  dropped, same rule as the fact-check verdict.
+- The local backend never gets this feature. If the owner later points
+  `openai_compat` at a server that can search, that is a deliberate
+  separate setting (`search_assist_local: true`) and the panel says so.
+- Hiding: a *Hide answers* link on the panel sets `search_assist_default`
+  off for this browser; Preferences turns the feature off for everyone.
+
 ### Default small model
 
 When `backend: openai_compat` points at a local server and `model` is
@@ -506,8 +543,10 @@ package starts private; BoxPilot's `catalog-check-images` reports the
    At this point the product is deployable and useful.
 6. **LLM layer with `disabled` and `openai_compat`** (one to two days):
    the client, the schema-validated `LlmVerdict`, the no-sources rule,
-   the panel, the Test button. Anthropic and OpenAI backends are an hour
-   each afterwards.
+   the panel, the Test button, the Model assist switch. Anthropic and
+   OpenAI backends are an hour each afterwards; the frontier search
+   assist (the answer panel with the provider's web-search tool) is
+   another day on top of the Anthropic backend.
 7. **Model-fit helper** (one day): pure functions over text fixtures from
    real machines, then the preferences section and the JSON endpoint.
 8. **OCR** last (two to three days): the sidecar, the route, the

@@ -11,6 +11,7 @@
         <button id="send_search" type="submit" {%- if search_on_category_select -%}name="category_{{ selected_categories[0]|replace(' ', '_') }}"{%- endif -%} aria-label="{{ _('search') }}"><span class="hide_if_nojs">{{ icon_big('search') }}</span><span class="show_if_nojs">{{ _('search') }}</span></button>
         <div class="autocomplete hide_if_nojs"><ul></ul></div>
       </div>
+      {% include 'simple/fork/mode_switch.html' %}
     </div>
     {% set display_tooltip = true %}
     {% include 'simple/categories.html' %}

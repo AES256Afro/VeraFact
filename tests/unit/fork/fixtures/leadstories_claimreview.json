@@ -1,0 +1,32 @@
+{
+  "@context": "http://schema.org",
+  "@type": "ClaimReview",
+  "datePublished": "2026-11-06T11:19:05-07:00",
+  "url": "https://leadstories.com/hoax-alert/2026/11/fact-check-images-of-colosseum-and-eiffel-tower-turned-blue-for-2026-midterms-are-not-real-photos.html",
+  "description": "Does a viral collage actually document the Colosseum and the Eiffel Tower lit in blue to celebrate Democratic wins in the 2026 midterms? No, that's not true: Five online tools determined that the pictures in it were made with generative...",
+  "itemReviewed": {
+    "@type": "CreativeWork",
+    "keywords": "",
+    "datePublished": "2026-11-06T11:19:05-07:00",
+    "author": {
+      "@type": "Organization",
+      "name": "facebook.com",
+      "sameAs": [
+        "https://www.facebook.com/razasamo8/posts/pfbid0AAdMpav3n8bFHp7Hj58Qm4mZydc79XK456X39FFrx5iuG4BABjHLdZgN2kWitx35l"
+      ]
+    }
+  },
+  "claimReviewed": "Real photos show the Colosseum and Eiffel Tower lit in blue to mark Democrat wins in the midterms.",
+  "author": {
+    "@type": "Organization",
+    "name": "Lead Stories LLC",
+    "url": "https://leadstories.com"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "1",
+    "bestRating": "5",
+    "worstRating": "1",
+    "alternateName": "AI Made It"
+  }
+}

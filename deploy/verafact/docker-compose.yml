@@ -15,6 +15,9 @@ services:
     env_file: ./.env
     environment:
       SEARXNG_VALKEY_URL: valkey://valkey:6379/0
+    # lets FORK_LLM_BASE_URL point at Ollama on the host (http://host.docker.internal:11434/v1)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./config/:/etc/searxng/
       - core-data:/var/cache/searxng/

@@ -1,0 +1,21 @@
+{%- set verdict_names = {
+  "true": _("true"), "mostly-true": _("mostly true"), "mixed": _("mixed"),
+  "mostly-false": _("mostly false"), "false": _("false"), "misleading": _("misleading"),
+  "unproven": _("unproven"), "satire": _("satire"), "outdated": _("outdated"), "unrated": _("unrated")
+} -%}
+<div class="vf-llm">
+  <div class="vf-llm-head">
+    <span class="vf-llm-title">{{ _('Summary by') }} {{ answer.model_label }}</span>
+    {%- if answer.available %}<span class="vf-verdict vf-verdict-{{ answer.verdict }}">{{ verdict_names[answer.verdict] }}</span>
+    <span class="vf-llm-confidence">{{ _('confidence') }}: {{ answer.confidence }}</span>{% endif -%}
+  </div>
+  {%- if answer.available %}
+  <p class="vf-llm-summary">{{ answer.summary }}</p>
+  {%- if answer.caveat %}<p class="vf-llm-caveat">{{ answer.caveat }}</p>{% endif %}
+  <p class="vf-llm-cites">{{ _('Based on') }}:
+    {%- for c in answer.citations %} <a href="{{ c.url }}" rel="noreferrer">[{{ c.index }}] {{ c.reviewer or c.title }}{% if c.verdict_raw %} ({{ c.verdict_raw }}){% endif %}</a>{% if not loop.last %},{% endif %}{% endfor %}
+  </p>
+  {%- else %}
+  <p class="vf-llm-unavailable">{{ _('Model summary unavailable') }}{% if answer.reason %}: {{ answer.reason }}{% endif %}. {{ _('The sources below stand on their own.') }}</p>
+  {%- endif %}
+</div>

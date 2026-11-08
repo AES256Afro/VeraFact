@@ -268,3 +268,80 @@
     margin-left: auto;
   }
 }
+
+// Mode switch and Model assist switch side by side.
+.vf-switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.vf-assist-switch {
+  border-style: dashed;
+}
+
+// Model panels (answer/fork_llm_verdict.html, answer/fork_assist.html).
+.vf-llm,
+.vf-assist {
+  display: block;
+
+  .vf-llm-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 0.3em;
+  }
+
+  .vf-llm-title {
+    font-weight: 600;
+    color: var(--vf-teal);
+  }
+
+  .vf-llm-confidence,
+  .vf-assist-note,
+  .vf-llm-caveat {
+    color: var(--color-result-publishdate-font);
+    font-size: 0.9em;
+  }
+
+  .vf-llm-summary,
+  .vf-assist-text {
+    margin: 0.2em 0;
+  }
+
+  .vf-llm-cites {
+    margin: 0.2em 0;
+    font-size: 0.9em;
+  }
+
+  .vf-llm-unavailable {
+    margin: 0.2em 0;
+    color: var(--color-result-publishdate-font);
+  }
+
+  .vf-assist-hide {
+    margin-left: auto;
+    font-size: 0.85em;
+  }
+
+  .vf-verdict {
+    display: inline-block;
+    padding: 0.1em 0.6em;
+    border-radius: 999px;
+    font-weight: 700;
+    color: var(--vf-badge-fg);
+    background: var(--vf-unrated);
+  }
+
+  .vf-verdict-true { background: var(--vf-true); }
+  .vf-verdict-mostly-true { background: var(--vf-mostly-true); }
+  .vf-verdict-mixed { background: var(--vf-mixed); }
+  .vf-verdict-mostly-false { background: var(--vf-mostly-false); }
+  .vf-verdict-false { background: var(--vf-false); }
+  .vf-verdict-misleading { background: var(--vf-misleading); }
+  .vf-verdict-unproven { background: var(--vf-unproven); }
+  .vf-verdict-satire { background: var(--vf-satire); }
+  .vf-verdict-outdated { background: var(--vf-outdated); }
+}

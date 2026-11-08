@@ -1,0 +1,15 @@
+<div class="vf-assist">
+  <div class="vf-llm-head">
+    <span class="vf-llm-title">{{ _('Answer by') }} {{ answer.model_label }}</span>
+    {%- if answer.hide_link %}<a class="vf-assist-hide" href="{{ answer.hide_link }}">{{ _('Hide answers') }}</a>{% endif -%}
+  </div>
+  {%- if answer.available %}
+  <p class="vf-assist-text">{{ answer.text }}</p>
+  <p class="vf-llm-cites">{{ _('Sources') }}:
+    {%- for c in answer.citations %} <a href="{{ c.url }}" rel="noreferrer">{{ c.title or c.url }}</a>{% if not loop.last %},{% endif %}{% endfor %}
+  </p>
+  <p class="vf-assist-note">{{ _('This query and the pages it fetched went to the model provider') }}{% if answer.fetched %} ({{ answer.fetched|join(', ') }}){% endif %}.</p>
+  {%- else %}
+  <p class="vf-llm-unavailable">{{ _('Answer unavailable') }}{% if answer.reason %}: {{ answer.reason }}{% endif %}.</p>
+  {%- endif %}
+</div>

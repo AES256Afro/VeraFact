@@ -17,7 +17,7 @@ from urllib.parse import urlencode
 from flask_babel import gettext
 
 from searx import get_setting
-from searx.fork.factcheck import claimreview, trigger
+from searx.fork.factcheck import assist, claimreview, llm_verdict, trigger
 from searx.fork.factcheck.verdicts import is_reviewer_host, severity
 from searx.fork.result_types import ClaimReview, FactCheckOffer, FactCheckSummary
 from searx.plugins import Plugin, PluginInfo
@@ -100,6 +100,9 @@ class SXNGPlugin(Plugin):
         if not trigger.is_factcheck_mode(search.search_query.categories):
             if get_setting("fork.factcheck.offer_on_heuristic", True) and trigger.looks_like_claim(query):
                 results.add(FactCheckOffer(query=query, link=_search_url(request, query, trigger.MODE_FACTCHECK)))
+            if assist.resolve_state(request) == "answer":
+                hide = _search_url(request, query, trigger.MODE_SEARCH) + f"&{assist.FIELD}=summary"
+                results.add(assist.request_answer(query, hide_link=hide))
             return results
 
         reviews = [r for r in search.result_container.main_results_map.values() if isinstance(r, ClaimReview)]
@@ -124,6 +127,10 @@ class SXNGPlugin(Plugin):
                 counts=sorted(counts.items(), key=lambda item: severity(item[0])),
             )
         )
+        # the model reads the sources that exist; with none it is not called (llm_verdict enforces it)
+        if reviews and assist.resolve_state(request) != "off":
+            ordered = [m for cluster in clusters for m in cluster]
+            results.add(llm_verdict.request_verdict(query, ordered))
         return results
 
 

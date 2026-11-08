@@ -167,3 +167,48 @@ healthcheck`. Nothing in this repo knows about BoxPilot; the contract is
   (new Less and TS files are additive; `style.less` imports them).
 - Everything else is new files. If a hook needs more than ~5 lines in an
   upstream file, move the logic into `searx/fork/` and call it.
+
+## 4. Implementation notes (2026-11-08)
+
+Where the code, once written, departed from the plan above, and why.
+
+- **Fact-check mode is the `fact check` category.** `webadapter.py` has one
+  hook: `searx.fork.factcheck.trigger.adapt_form()` maps the `mode` form
+  field and the `!fc` / `!factcheck` bangs onto that category before the
+  form is parsed. The results header's switch and the home page's radios
+  both speak `mode=`. Nothing else in upstream's query path changed.
+- **Engine modules live in `searx/engines/`** (`google_factcheck`,
+  `factcheck_politifact`, `factcheck_wordpress`, `factcheck_site`) because
+  the loader only looks there; the shared logic is in `searx/fork/factcheck/`.
+- **Result templates are flat files** (`result_templates/fork_claim_review.html`):
+  upstream's template discovery does not descend into sub-folders.
+- **Answers carry their own `link` field** for relative URLs: `Result.url` is
+  normalised to an absolute `http://` URL, and Flask's `url_for` from inside a
+  plugin produced `http:///search` behind the container.
+- **Site-scoped fallbacks default to Yahoo.** From a home connection
+  DuckDuckGo, Google and Qwant answer `site:` queries with a challenge and
+  Brave rate-limits after a few; `base_engine` is per engine in `settings.yml`.
+  An unregistered base is built through `load_engine()` from its own settings
+  entry, so xpath/json-defined engines work too.
+- **Plain-http model servers are reached with `urllib`.** SearXNG's outgoing
+  network only speaks https unless `outgoing.enable_http` is turned on for
+  every engine; an `http://` model address is a local server by definition.
+  `https://` providers go through `searx.network`.
+- **The search assist runs synchronously** inside `post_search`, bounded by
+  `search_assist_timeout`, and only when the user set the switch to *Answer*.
+  Moving it to an after-load fetch (a `/fork/assist` route plus a small
+  script) is the planned follow-up.
+- **Routes and template globals** are registered by one call,
+  `searx.fork.routes.register(app)`, next to upstream's `favicon_proxy`
+  rule in `webapp.py`: `/fork/llm/test.json`, `/fork/modelfit.json`,
+  `vf_assist_switch()`, `vf_modelfit()`.
+- **Upstream files touched, for rebases:** `webapp.py` (one import, one
+  line), `webadapter.py` (one import, one line), `settings_defaults.py`
+  (one import, the `fork` schema entry, the `fact check` tab),
+  `settings.yml` (the `fork:` block, the engines, the plugin, the tab),
+  `brand.py`, `templates/simple/{base,index,search,simple_search,
+  page_with_header,categories,opensearch*,preferences}.html` (brand
+  strings and one include each), `client/simple/src/less/style.less` (one
+  import), `theme_icons.ts` (one icon), the brand SVGs under their upstream
+  names, `container/Dockerfile` (labels and HEALTHCHECK), and four upstream
+  test assertions that pinned brand strings.

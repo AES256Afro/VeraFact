@@ -1,0 +1,17 @@
+{#- VeraFact: the model layer, as the owner configured it in settings.yml / the environment. -#}
+{%- set backend = get_setting('fork.llm.backend', 'disabled') -%}
+<fieldset>{{- '' -}}
+  <legend id="pref_fork_llm">{{ _('Model') }}</legend>{{- '' -}}
+  <p class="value">{{- '' -}}
+    <span>{{ backend }}{% if backend != 'disabled' %} · {{ get_setting('fork.llm.model', '') or _('(no model set)') }}{% if backend == 'openai_compat' %} · {{ get_setting('fork.llm.base_url', '') or _('(no address set)') }}{% endif %}{% endif %}</span>{{- '' -}}
+  </p>{{- '' -}}
+  <div class="description">
+    {%- if backend == 'disabled' -%}
+      {{ _('No model is configured. Fact-check mode works without one: the sources and the verdict counts above the results come from the reviewers themselves. The owner sets fork.llm in settings.yml or FORK_LLM_BACKEND, FORK_LLM_BASE_URL, FORK_LLM_MODEL and FORK_LLM_API_KEY in the environment.') -}}
+    {%- else -%}
+      {{ _('In fact-check mode the model summarises the reviews found and cites them; it never gives a verdict without sources. The Model assist switch on the results page turns it off for this browser.') }}
+      {%- if get_setting('fork.llm.search_assist', false) %} {{ _('Search assist is on: with the switch set to Answer, the model searches the web itself and the query goes to the provider.') }}{% endif %}
+      <br><a href="{{ url_for('fork_llm_test') }}">{{ _('Test the model') }}</a> {{ _('(sends one short prompt and shows the latency)') }}
+    {%- endif -%}
+  </div>{{- '' -}}
+</fieldset>{{- '' -}}

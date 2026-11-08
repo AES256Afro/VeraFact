@@ -25,3 +25,22 @@ engines:
     shortcut: gfc
     categories: ["fact check"]
     timeout: 3
+
+  - name: politifact
+    engine: factcheck_politifact
+    shortcut: pf
+    timeout: 3
+
+  - name: factcheck.org
+    engine: factcheck_wordpress
+    base_url: https://www.factcheck.org
+    reviewer: FactCheck.org
+    shortcut: fco
+    timeout: 3
+
+  - name: snopes
+    engine: factcheck_site
+    site: snopes.com
+    base_engine: fakebase
+    shortcut: snp
+    timeout: 3

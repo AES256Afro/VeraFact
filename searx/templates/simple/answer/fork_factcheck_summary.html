@@ -14,7 +14,7 @@
       {%- else -%}
         {{ _('%(n)s fact-checkers reviewed this claim', n=answer.reviewers) }}
       {%- endif -%}
-      {%- if answer.claims > 1 %} ({{ _('%(n)s distinct claims', n=answer.claims) }}){% endif -%}:
+      {%- if answer.claims > 1 and answer.claims < answer.reviews %} ({{ _('%(n)s distinct claims', n=answer.claims) }}){% endif -%}:
     </span>
     <span class="vf-summary-counts">
       {%- for verdict, count in answer.counts -%}

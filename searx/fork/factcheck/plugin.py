@@ -17,7 +17,7 @@ from urllib.parse import urlencode
 from flask_babel import gettext
 
 from searx import get_setting
-from searx.fork.factcheck import trigger
+from searx.fork.factcheck import claimreview, trigger
 from searx.fork.factcheck.verdicts import is_reviewer_host, severity
 from searx.fork.result_types import ClaimReview, FactCheckOffer, FactCheckSummary
 from searx.plugins import Plugin, PluginInfo
@@ -103,6 +103,10 @@ class SXNGPlugin(Plugin):
             return results
 
         reviews = [r for r in search.result_container.main_results_map.values() if isinstance(r, ClaimReview)]
+        try:
+            claimreview.enrich(reviews, max_fetch=int(get_setting("fork.factcheck.enrich_top", 5)))
+        except Exception as exc:  # pylint: disable=broad-exception-caught
+            self.log.warning("enrichment failed: %s", exc)
         clusters = cluster_claims(reviews)
         for members in clusters:
             if len({m.reviewer for m in members}) >= 2:

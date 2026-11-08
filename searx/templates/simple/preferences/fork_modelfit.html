@@ -1,0 +1,31 @@
+{#- VeraFact: what model this box can run, from searx/fork/modelfit (offline arithmetic). -#}
+{%- set fit = vf_modelfit() -%}
+{%- if fit %}
+{%- set hw = fit.hardware -%}
+{%- set rec = fit.recommendation -%}
+<fieldset>{{- '' -}}
+  <legend id="pref_fork_modelfit">{{ _('What this box can run') }}</legend>{{- '' -}}
+  <p class="value">{{- '' -}}
+    <span>{{ rec.tier }}</span>{{- '' -}}
+  </p>{{- '' -}}
+  <div class="description vf-modelfit">
+    <p>{{ _('Ceiling') }}: {{ rec.ceiling }}. {{ _('Start with') }} {{ rec.suggest }}.
+      {%- if rec.tokens_per_s %} {{ _('Roughly %(n)s tokens per second.', n=rec.tokens_per_s) }}{% endif %}</p>
+    <p class="vf-modelfit-hw">
+      {%- if hw.cpu_model %}{{ hw.cpu_model }}, {% endif %}{{ hw.cores }} {{ _('cores') }}, {{ '%.0f'|format(hw.mem_total_gb) }} GB RAM ({{ '%.0f'|format(hw.mem_available_gb) }} GB {{ _('available') }})
+      {%- for g in hw.gpus %}; {{ g.name or g.vendor }} {{ '%.0f'|format(g.vram_gb) }} GB{% endfor %}
+      {%- if hw.sources %}. {{ _('Read from') }} {{ hw.sources|join(', ') }}{% endif %}.
+      {{ _('Budget for weights and context') }}: {{ '%.1f'|format(rec.budget_gb) }} GB ({{ rec.where }}).
+    </p>
+    <ul class="vf-modelfit-notes">
+      {%- for note in rec.notes %}<li>{{ note }}</li>{% endfor -%}
+    </ul>
+    <details class="vf-modelfit-checklist"><summary>{{ _('What to look for in a model') }}</summary>
+      <ul>
+        {%- for name, text in rec.checklist %}<li><b>{{ name }}</b>: {{ text }}</li>{% endfor -%}
+      </ul>
+    </details>
+    <p class="vf-modelfit-note">{{ _('Nothing is downloaded or sent anywhere; this is arithmetic over the hardware. Load the model in Ollama or LM Studio and type its name under Model.') }}</p>
+  </div>{{- '' -}}
+</fieldset>{{- '' -}}
+{%- endif %}

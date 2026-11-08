@@ -26,7 +26,7 @@ SOURCES = [
 
 class PromptTest(SearxTestCase):
 
-    def test_messages_number_the_sources(self):
+    def test_messages_number_sources(self):
         messages = llm_verdict.build_messages("the moon is cheese", SOURCES)
         self.assertEqual(messages[0].role, "system")
         user = messages[1].content
@@ -43,7 +43,7 @@ class ValidateTest(SearxTestCase):
         data = {"verdict": "false", "confidence": "high", "summary": "No.", "citations": [1, 2], "caveat": ""}
         self.assertEqual(llm_verdict.validate(data, SOURCES), "")
 
-    def test_milder_than_sources_is_fine(self):
+    def test_milder_is_fine(self):
         data = {"verdict": "mixed", "confidence": "low", "summary": "Unclear.", "citations": [1], "caveat": ""}
         self.assertEqual(llm_verdict.validate(data, SOURCES), "")
 
@@ -57,7 +57,7 @@ class ValidateTest(SearxTestCase):
         data["citations"] = [True]
         self.assertIn("not a source number", llm_verdict.validate(data, SOURCES))
 
-    def test_stronger_than_cited_sources(self):
+    def test_stronger_than_cited(self):
         data = {"verdict": "false", "confidence": "high", "summary": "No.", "citations": [2], "caveat": ""}
         self.assertIn("more certain", llm_verdict.validate(data, SOURCES))
         data = {"verdict": "false", "confidence": "high", "summary": "No.", "citations": [3], "caveat": ""}

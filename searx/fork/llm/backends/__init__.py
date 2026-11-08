@@ -32,9 +32,18 @@ def api_key() -> str:
 
 
 def http_post(url: str, body: dict[str, t.Any], headers: dict[str, str], timeout: float) -> HttpReply:
-    """POST JSON through :py:mod:`searx.network`; the reply's JSON body, or its
-    text when it is not JSON.  Raises :py:class:`searx.fork.llm.LlmError` on
-    transport failure."""
+    """POST JSON and return the reply's JSON body (or its text when it is not
+    JSON).  Raises :py:class:`~searx.fork.llm.types.LlmError` on transport
+    failure.
+
+    A plain ``http://`` address is a local model server (Ollama, LM Studio,
+    llama.cpp on this box or the LAN): it is reached directly with the standard
+    library, because SearXNG's outgoing network only speaks https unless the
+    owner turns ``outgoing.enable_http`` on for every engine.  ``https://``
+    addresses go through :py:mod:`searx.network`, so proxies apply.
+    """
+    if url.lower().startswith("http://"):
+        return _post_plain_http(url, body, headers, timeout)
     from searx.network import post  # pylint: disable=import-outside-toplevel
 
     try:
@@ -46,3 +55,26 @@ def http_post(url: str, body: dict[str, t.Any], headers: dict[str, str], timeout
     except ValueError:
         data = resp.text
     return HttpReply(status=int(resp.status_code), data=data)
+
+
+def _post_plain_http(url: str, body: dict[str, t.Any], headers: dict[str, str], timeout: float) -> HttpReply:
+    import json  # pylint: disable=import-outside-toplevel
+    import urllib.error  # pylint: disable=import-outside-toplevel
+    import urllib.request  # pylint: disable=import-outside-toplevel
+
+    request = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as resp:  # nosec: local model server, owner-configured
+            raw = resp.read()
+            status = int(resp.status)
+    except urllib.error.HTTPError as exc:
+        raw = exc.read()
+        status = int(exc.code)
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        raise LlmError(f"request to {url} failed: {exc.__class__.__name__}: {exc}") from exc
+    text = raw.decode("utf-8", errors="replace")
+    try:
+        data: t.Any = json.loads(text)
+    except ValueError:
+        data = text
+    return HttpReply(status=status, data=data)

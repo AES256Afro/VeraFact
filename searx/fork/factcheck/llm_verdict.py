@@ -87,12 +87,9 @@ def build_messages(claim: str, reviews: list[ClaimReview]) -> list[Message]:
     return [Message(role="system", content=SYSTEM), Message(role="user", content=user)]
 
 
-def validate(data: dict[str, t.Any], reviews: list[ClaimReview]) -> str:
-    """``""`` when ``data`` is an acceptable verdict over ``reviews``, else the
-    reason it is not."""
-    verdict = data.get("verdict")
-    if verdict not in VERDICTS:
-        return f"unknown verdict {verdict!r}"
+def _check_shape(data: dict[str, t.Any]) -> str:
+    if data.get("verdict") not in VERDICTS:
+        return f"unknown verdict {data.get('verdict')!r}"
     if data.get("confidence") not in ("low", "medium", "high"):
         return "missing confidence"
     summary = data.get("summary")
@@ -101,18 +98,35 @@ def validate(data: dict[str, t.Any], reviews: list[ClaimReview]) -> str:
     citations = data.get("citations")
     if not isinstance(citations, list) or not citations:
         return "no citations"
+    return ""
+
+
+def _cited(citations: list[t.Any], reviews: list[ClaimReview]) -> tuple[list[ClaimReview], str]:
     cited: list[ClaimReview] = []
     for index in citations:
         if not isinstance(index, int) or isinstance(index, bool) or not 1 <= index <= min(len(reviews), MAX_SOURCES):
-            return f"citation {index!r} is not a source number"
+            return [], f"citation {index!r} is not a source number"
         cited.append(reviews[index - 1])
+    return cited, ""
+
+
+def validate(data: dict[str, t.Any], reviews: list[ClaimReview]) -> str:
+    """``""`` when ``data`` is an acceptable verdict over ``reviews``, else the
+    reason it is not."""
+    problem = _check_shape(data)
+    if problem:
+        return problem
+    cited, problem = _cited(data["citations"], reviews)
+    if problem:
+        return problem
+    verdict = str(data["verdict"])
     strength, direction = _STRENGTH[verdict]
-    if strength:
-        strongest = max(_STRENGTH[r.verdict][0] for r in cited)
-        if strength > strongest:
-            return f"verdict {verdict} is more certain than every cited source"
-        if not any(_STRENGTH[r.verdict][1] == direction for r in cited if _STRENGTH[r.verdict][0]):
-            return f"verdict {verdict} points the other way from the cited sources"
+    if not strength:
+        return ""
+    if strength > max(_STRENGTH[r.verdict][0] for r in cited):
+        return f"verdict {verdict} is more certain than every cited source"
+    if not any(_STRENGTH[r.verdict][1] == direction for r in cited if _STRENGTH[r.verdict][0]):
+        return f"verdict {verdict} points the other way from the cited sources"
     return ""
 
 

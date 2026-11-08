@@ -39,6 +39,58 @@ def settings(**values):
     )
 
 
+class HttpPostTest(SearxTestCase):
+
+    def test_plain_http_uses_stdlib(self):
+        class FakeResp:
+            status = 200
+
+            def read(self):
+                return b'{"ok": true}'
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        with (
+            mock.patch("urllib.request.urlopen", return_value=FakeResp()) as urlopen,
+            mock.patch("searx.network.post") as net_post,
+        ):
+            reply = backends.http_post("http://ollama:11434/v1/chat/completions", {"a": 1}, {"X": "y"}, 3.0)
+        self.assertEqual(reply.status, 200)
+        self.assertEqual(reply.data, {"ok": True})
+        net_post.assert_not_called()
+        req = urlopen.call_args[0][0]
+        self.assertEqual(req.full_url, "http://ollama:11434/v1/chat/completions")
+        self.assertEqual(req.data, b'{"a": 1}')
+        self.assertEqual(urlopen.call_args.kwargs["timeout"], 3.0)
+
+    def test_plain_http_error_status(self):
+        import urllib.error  # pylint: disable=import-outside-toplevel
+
+        err = urllib.error.HTTPError("http://x", 400, "bad", {}, None)
+        err.read = lambda: b'{"error": "unknown field"}'  # type: ignore[method-assign]
+        with mock.patch("urllib.request.urlopen", side_effect=err):
+            reply = backends.http_post("http://x/v1/chat/completions", {}, {}, 3.0)
+        self.assertEqual(reply.status, 400)
+        self.assertEqual(reply.data, {"error": "unknown field"})
+
+    def test_plain_http_failure(self):
+        with mock.patch("urllib.request.urlopen", side_effect=OSError("refused")):
+            with self.assertRaises(llm.LlmError):
+                backends.http_post("http://x/v1/chat/completions", {}, {}, 3.0)
+
+    def test_https_uses_searx_network(self):
+        resp = mock.Mock(status_code=200)
+        resp.json.return_value = {"ok": 1}
+        with mock.patch("searx.network.post", return_value=resp) as net_post:
+            reply = backends.http_post("https://api.example/v1", {"a": 1}, {}, 2.0)
+        self.assertEqual(reply.data, {"ok": 1})
+        self.assertEqual(net_post.call_args.kwargs["timeout"], 2.0)
+
+
 class ParseJsonTest(SearxTestCase):
 
     def test_parse(self):
@@ -104,7 +156,7 @@ class OpenAICompatTest(SearxTestCase):
         self.assertNotIn("Authorization", headers)
         self.assertEqual(timeout, 7.0)
 
-    def test_schema_fallback_when_server_rejects_response_format(self):
+    def test_schema_fallback(self):
         replies = iter(
             [
                 backends.HttpReply(status=400, data={"error": "unknown field response_format"}),
@@ -143,7 +195,7 @@ class OpenAICompatTest(SearxTestCase):
         with self.assertRaises(llm.LlmError):
             llm.web_search("x", max_fetches=3, timeout=5)
 
-    def test_images_refused_without_allow_images(self):
+    def test_images_refused(self):
         with self.assertRaises(llm.LlmError):
             llm.complete([llm.Message(role="user", content="u")], images=[b"png"])
 
@@ -231,7 +283,7 @@ class AnthropicTest(SearxTestCase):
 
 class OpenAITest(SearxTestCase):
 
-    def test_web_search_parses_annotations(self):
+    def test_web_search_annotations(self):
         patches = settings(backend="openai", api_key="sk-test", model="gpt-5-mini")
         data = {
             "model": "gpt-5-mini",

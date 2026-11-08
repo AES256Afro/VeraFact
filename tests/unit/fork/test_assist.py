@@ -50,14 +50,14 @@ class StateTest(SearxTestCase):
         self.assertEqual(state, "off")
         self.assertEqual(items, [])
 
-    def test_local_backend_defaults_to_summary(self):
+    def test_local_defaults_summary(self):
         state, items = self.run_with({"backend": "openai_compat", "model": "m"})
         self.assertEqual(state, "summary")
         self.assertEqual([i["label"] for i in items], ["Off", "Local"])
         self.assertEqual([i["current"] for i in items], ["", "1"])
         self.assertEqual(items[0]["link"], "/search?q=x&assist=off")
 
-    def test_frontier_with_assist_offers_answer(self):
+    def test_frontier_offers_answer(self):
         state, items = self.run_with({"backend": "anthropic", "search_assist": True})
         self.assertEqual(state, "summary")
         self.assertEqual([i["label"] for i in items], ["Off", "Frontier", "Answer"])

@@ -192,6 +192,7 @@
     {%- if engines_with_tokens -%}
       {%- include 'simple/preferences/tokens.html' -%}
     {%- endif -%}
+    {%- include 'simple/preferences/fork_llm.html' -%}
     {{- plugin_preferences('general') -}}
     {{- tab_footer() -}}
 

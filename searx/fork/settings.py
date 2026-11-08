@@ -76,6 +76,8 @@ class Llm(msgspec.Struct, kw_only=True, forbid_unknown_fields=True):
     """Frontier backends only: the model searches the web and answers above the results."""
     search_assist_default: bool = False
     """Even when search_assist is on, the user enables it per search unless this is true."""
+    search_assist_local: bool = False
+    """Let an openai_compat server that can search the web run the search assist too (off: frontier only)."""
     search_assist_max_fetches: int = 6
     search_assist_timeout: int = 8
 

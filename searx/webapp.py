@@ -96,6 +96,7 @@ from searx.preferences import (
 )
 import searx.answerers
 import searx.plugins
+import searx.fork.routes
 
 
 from searx.metrics import get_engines_stats, get_engine_errors, get_reliabilities, histogram, counter, openmetrics
@@ -1010,6 +1011,7 @@ def preferences():
 
 
 app.add_url_rule('/favicon_proxy', methods=['GET'], endpoint="favicon_proxy", view_func=favicons.favicon_proxy)
+searx.fork.routes.register(app)  # VeraFact
 
 
 @app.route('/image', methods=['GET'])

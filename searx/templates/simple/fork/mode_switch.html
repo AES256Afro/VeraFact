@@ -1,8 +1,12 @@
-{#- The Search / Check a claim switch. With a query (results page) the two
-    states are links that re-run it; on the home page they are radios that
-    travel with the form. Both resolve to the "fact check" category in
-    searx/fork/factcheck/trigger.py. -#}
+{#- The Search / Check a claim switch, and next to it the Model assist switch
+    when a model is configured. With a query (results page) the states are
+    links that re-run it; on the home page the mode is a pair of radios that
+    travel with the form. The mode resolves to the "fact check" category in
+    searx/fork/factcheck/trigger.py; the assist state is read by
+    searx/fork/factcheck/assist.py. -#}
 {%- set factcheck_on = 'fact check' in (selected_categories or []) -%}
+{%- set vf_assist_items = vf_assist_switch(q, selected_categories) -%}
+<div class="vf-switches">
 <div class="vf-mode" role="group" aria-label="{{ _('Mode') }}">
   {%- if q -%}
     <a class="vf-mode-item{% if not factcheck_on %} selected{% endif %}" href="{{ url_for('search') }}?q={{ q|urlencode }}&amp;mode=search">{{ _('Search') }}</a>
@@ -11,4 +15,12 @@
     <input type="radio" id="vf-mode-search" name="mode" value="search"{% if not factcheck_on %} checked{% endif %}><label class="vf-mode-item" for="vf-mode-search">{{ _('Search') }}</label>
     <input type="radio" id="vf-mode-factcheck" name="mode" value="factcheck"{% if factcheck_on %} checked{% endif %}><label class="vf-mode-item" for="vf-mode-factcheck">{{ _('Check a claim') }}</label>
   {%- endif -%}
+</div>
+{%- if q and vf_assist_items %}
+<div class="vf-mode vf-assist-switch" role="group" aria-label="{{ _('Model assist') }}" title="{{ _('Model assist') }}">
+  {%- for item in vf_assist_items -%}
+    <a class="vf-mode-item{% if item.current %} selected{% endif %}" href="{{ item.link }}">{{ _(item.label) }}</a>
+  {%- endfor -%}
+</div>
+{%- endif %}
 </div>

@@ -65,6 +65,7 @@ fork:
     extract_claims: true
     search_assist: false            # frontier backends only: the model searches the web and answers above results
     search_assist_default: false    # even when on, the user enables it per search
+    search_assist_local: false      # let an openai_compat server that can search run the assist too
     search_assist_max_fetches: 6
     search_assist_timeout: 8
   modelfit:

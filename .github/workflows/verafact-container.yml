@@ -1,0 +1,76 @@
+---
+name: VeraFact container
+
+# Builds the image from container/Dockerfile and publishes it to GHCR on every
+# push to main (tagged with the date+hash the app reports as its version, and
+# latest) and on a v* tag. The package starts private the first time; make it
+# public once in the package's settings (Danger Zone → Change visibility) so a
+# server without registry credentials can pull it.
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: "false"
+          fetch-depth: "0"
+
+      - name: Freeze the version
+        id: version
+        run: |
+          docker_tag="$(sh deploy/verafact/freeze-version.sh)"
+          version="$(sed -n 's/^VERSION_STRING = "\(.*\)"/\1/p' searx/version_frozen.py)"
+          owner="$(printf '%s' "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')"
+          {
+            echo "docker_tag=$docker_tag"
+            echo "version=$version"
+            echo "image=ghcr.io/$owner/verafact"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6  # v4.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: container/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.version.outputs.image }}:${{ steps.version.outputs.docker_tag }}
+            ${{ steps.version.outputs.image }}:latest
+          build-args: |
+            CREATED=${{ github.event.head_commit.timestamp || '0001-01-01T00:00:00Z' }}
+            VERSION=${{ steps.version.outputs.version }}
+            VCS_URL=https://github.com/${{ github.repository }}
+            VCS_REVISION=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

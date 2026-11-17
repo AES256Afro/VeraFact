@@ -26,3 +26,5 @@ parameterized==0.9.0
 granian[reload]==2.8.7
 basedpyright==1.40.2
 types-lxml==2026.2.16
+anyio>=4.14.2
+setuptools>=83.0.0

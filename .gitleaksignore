@@ -1,0 +1,8 @@
+# Public values from upstream SearXNG, not secrets of this project (reviewed 2026-11-19).
+# Algolia search key that pdimagearchive.org publishes in its own page; the engine now fetches it at runtime.
+3333d9f3854cbc707c3949087f9498e35b26276a:searx/engines/public_domain_image_archive.py:algolia-api-key:11
+6745d0ec48b96d0410d9632f74f0ca20fd4a9a1e:searx/engines/public_domain_image_archive.py:algolia-api-key:11
+# YouTube's public web (InnerTube) key, served to every youtube.com visitor; not a Google Cloud key of ours.
+40b448ff7c0ba3f0a769d967f74a337adc0c7de1:searx/engines/youtube_noapi.py:gcp-api-key:31
+f97b4ff7b6607f4da66bc0f67b14b29317011cd2:searx/engines/youtube_noapi.py:gcp-api-key:31
+searx/engines/youtube_noapi.py:gcp-api-key:32
